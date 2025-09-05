@@ -25,3 +25,7 @@ class Board:
         for i, val in enumerate(self.__points__, start=1):
             print(f"Punto {i:2}: {val}")
         print("================\n")
+    
+    def get_points(self):
+        """Devuelve el estado de los 24 puntos del tablero."""
+        return self.__points__
