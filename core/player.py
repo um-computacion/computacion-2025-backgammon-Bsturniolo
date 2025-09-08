@@ -8,11 +8,11 @@ class Player:
         name: nombre del jugador
         id_: 1 para jugador 1, -1 para jugador 2
         """
-        self.__name__ = name
-        self.__id__ = id_
-        self.__checkers__ = []      # fichas del jugador
-        self.__bar__ = []           # fichas capturadas (en la barra)
-        self.__borne_off__ = []     # fichas que ya salieron del tablero
+        self._name = name
+        self._id = id_
+        self._checkers = []      # fichas del jugador
+        self._bar = []           # fichas capturadas (en la barra)
+        self._borne_off = []     # fichas que ya salieron del tablero
 
     def __repr__(self):
-        return f"Player({self.__name__}, id={self.__id__})"
+        return f"Player({self._name}, id={self._id})"
