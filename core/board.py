@@ -29,3 +29,7 @@ class Board:
     def get_points(self):
         """Devuelve el estado de los 24 puntos del tablero."""
         return self.__points__
+
+def get_points(self):
+    """Devuelve el estado de los 24 puntos del tablero."""
+    return self.__points__
