@@ -4,7 +4,7 @@
 Es un juego para **2 jugadores** que combina estrategia y azar (dados).  
 
 ### 🎯 Objetivo
-El objetivo es mover las **15 fichas** de cada jugador alrededor del tablero y ser el primero en sacarlas todas.  
+Mover las **15 fichas** de cada jugador alrededor del tablero y ser el primero en sacarlas todas.  
 
 ### 🕹️ Reglas básicas
 - El tablero tiene **24 puntos** (triángulos), divididos en 4 cuadrantes.  
@@ -15,4 +15,8 @@ El objetivo es mover las **15 fichas** de cada jugador alrededor del tablero y s
 - Se puede **capturar** fichas rivales si hay una sola en un punto (se envían a la barra).  
 - Las fichas capturadas deben **reingresar desde la barra** antes de mover otras.  
 - Gana el primero que logre **sacar todas sus fichas** del tablero.  
- 
+
+### 🖥️ Cómo jugar
+1. Ejecuta el juego con Python:  
+   ```bash
+   python cli.py
