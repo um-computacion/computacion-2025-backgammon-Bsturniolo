@@ -31,3 +31,7 @@ class BackgammonGame:
     def current_player(self):
         """Devuelve el jugador actual."""
         return self.__players__[self.__turn__]
+    
+    def get_board(self):
+        """Devuelve el tablero del juego."""
+        return self.__board__   
