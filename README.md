@@ -20,3 +20,16 @@ Mover las **15 fichas** de cada jugador alrededor del tablero y ser el primero e
 1. Ejecuta el juego con Python:  
    ```bash
    python cli.py
+   
+## Roadmap del proyecto
+
+- [x] Estructura inicial del proyecto
+- [x] Clases principales: Board, Player, Dice, Checker, BackgammonGame
+- [x] CLI inicial con visualización básica
+- [x] Pruebas unitarias iniciales (Dice, Board, Player, Game, Checker)
+- [x] Configuración de integración continua (GitHub Actions)
+- [ ] Implementar movimientos de fichas
+- [ ] Reingreso de fichas desde la barra
+- [ ] Borneado de fichas
+- [ ] Reglas de victoria
+- [ ] Interfaz gráfica con Pygame
