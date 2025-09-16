@@ -30,6 +30,9 @@ class Board:
         """Devuelve el estado de los 24 puntos del tablero."""
         return self.__points__
 
-def get_points(self):
-    """Devuelve el estado de los 24 puntos del tablero."""
-    return self.__points__
+    def get_points(self):
+        """Devuelve el estado de los 24 puntos del tablero."""
+        return self.__points__
+
+    def move_checker(self, from_point: int, to_point: int):
+        ...
