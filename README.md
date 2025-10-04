@@ -23,13 +23,23 @@ Mover las **15 fichas** de cada jugador alrededor del tablero y ser el primero e
    
 ## Roadmap del proyecto
 
-- [x] Estructura inicial del proyecto
-- [x] Clases principales: Board, Player, Dice, Checker, BackgammonGame
-- [x] CLI inicial con visualización básica
-- [x] Pruebas unitarias iniciales (Dice, Board, Player, Game, Checker)
-- [x] Configuración de integración continua (GitHub Actions)
-- [ ] Implementar movimientos de fichas
-- [ ] Reingreso de fichas desde la barra
-- [ ] Borneado de fichas
-- [ ] Reglas de victoria
-- [ ] Interfaz gráfica con Pygame
+# Backgammon - Proyecto Computación 2025
+
+## Características implementadas
+
+- ✅ Tablero (`Board`) con 24 puntos y configuración inicial correcta
+- ✅ Jugadores (`Player`) con nombre e id
+- ✅ Dados (`Dice`) con manejo de dobles
+- ✅ Movimiento de fichas (`move_checker`) en el tablero
+- ✅ Validación de movimientos (`can_move`)
+- ✅ Fichas (`Checker`) con dueño
+- ✅ Interfaz por consola (CLI) básica con turnos y tirada de dados
+- ✅ Pruebas unitarias para Board, Player, Dice, Game y Checker
+- ✅ Integración continua con GitHub Actions
+
+## Próximos pasos
+
+- ➡️ Implementar barra de fichas capturadas
+- ➡️ Implementar borneado (remover fichas)
+- ➡️ Reglas de victoria
+- ➡️ Interfaz gráfica con Pygame
