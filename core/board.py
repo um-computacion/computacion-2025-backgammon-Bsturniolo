@@ -63,3 +63,27 @@ class Board:
             # Revertimos origen
             self.__points__[from_point] += owner
             raise ValueError(f"Movimiento inválido de {from_point + 1} a {to_point + 1}")
+        
+    def can_move(self, from_point: int, to_point: int) -> bool:
+        """
+        Verifica si un movimiento es legal sin ejecutarlo.
+        Devuelve True si el movimiento es válido, False en caso contrario.
+        """
+        if from_point < 0 or from_point > 23 or to_point < 0 or to_point > 23:
+            return False
+
+        if self.__points__[from_point] == 0:
+            return False  # no hay fichas en origen
+
+        owner = 1 if self.__points__[from_point] > 0 else -1
+
+        # Caso: destino vacío o con fichas del mismo jugador
+        if self.__points__[to_point] == 0 or (self.__points__[to_point] * owner > 0):
+            return True
+
+        # Caso: destino con 1 ficha enemiga (se puede golpear)
+        if abs(self.__points__[to_point]) == 1 and (self.__points__[to_point] * owner < 0):
+            return True
+
+        # Caso: destino bloqueado (2 o más fichas enemigas)
+        return False
