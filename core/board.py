@@ -6,6 +6,7 @@ class Board:
 
     def __init__(self):
         self.__points__ = [0] * 24
+        self.__bar__ = {1: 0, -1: 0}  # Fichas golpeadas por jugador
         self._setup_starting_position()
 
     def _setup_starting_position(self):
@@ -28,16 +29,20 @@ class Board:
         for i, val in enumerate(self.__points__, start=1):
             print(f"Punto {i:2}: {val}")
         print("================\n")
+        print(f"Barra: Jugador 1 → {self.__bar__[1]} | Jugador 2 → {self.__bar__[-1]}")
     
     def get_points(self):
         """Devuelve el estado de los 24 puntos del tablero."""
         return self.__points__
+    
+    def get_bar(self):
+        """Devuelve la cantidad de fichas en la barra para cada jugador."""
+        return self.__bar__
 
     def move_checker(self, from_point: int, to_point: int):
         """
         Mueve una ficha de un punto a otro.
-        
-        from_point y to_point son índices (0-23).
+        Si golpea una ficha enemiga, la envía a la barra.
         """
         if from_point < 0 or from_point > 23 or to_point < 0 or to_point > 23:
             raise ValueError("Los puntos deben estar entre 0 y 23")
@@ -51,16 +56,16 @@ class Board:
         # Reducir en origen
         self.__points__[from_point] -= owner
 
-        # Si el destino tiene fichas del mismo jugador o está vacío
+        # Caso: destino vacío o del mismo jugador
         if self.__points__[to_point] == 0 or (self.__points__[to_point] * owner > 0):
             self.__points__[to_point] += owner
-        # Si el destino tiene solo 1 ficha enemiga → la "golpea"
+        # Caso: destino con 1 ficha enemiga (la golpea)
         elif abs(self.__points__[to_point]) == 1 and (self.__points__[to_point] * owner < 0):
-            # TODO: enviar la ficha golpeada a la barra
+            hit_owner = 1 if self.__points__[to_point] > 0 else -1
+            self.__bar__[hit_owner] += 1
             self.__points__[to_point] = owner
         else:
             # Movimiento inválido (bloqueado)
-            # Revertimos origen
             self.__points__[from_point] += owner
             raise ValueError(f"Movimiento inválido de {from_point + 1} a {to_point + 1}")
         
