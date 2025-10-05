@@ -43,3 +43,19 @@ Mover las **15 fichas** de cada jugador alrededor del tablero y ser el primero e
 - ➡️ Implementar borneado (remover fichas)
 - ➡️ Reglas de victoria
 - ➡️ Interfaz gráfica con Pygame
+
+## ♟️ Sistema de barra en el Backgammon
+
+En **Backgammon**, cuando una ficha es **golpeada**, no se elimina del juego.  
+En su lugar, se **envía a la barra**, una zona temporal donde espera hasta poder volver a entrar al tablero.
+
+### 🧩 ¿Cómo funciona la barra?
+- Cada jugador tiene su propia barra:
+  - `Jugador 1 (O)` → `bar[1]`
+  - `Jugador 2 (X)` → `bar[-1]`
+- Si una ficha enemiga queda sola en un punto (por ejemplo, un `-1`) y el jugador contrario cae en ese punto, la ficha es golpeada y:
+  - Se suma `+1` a la barra del jugador golpeado.
+  - El punto se reemplaza por la ficha del jugador que golpeó.
+- Mientras un jugador tenga fichas en su barra, **debe reingresarlas** antes de realizar otros movimientos (esta mecánica se implementará más adelante).
+
+### ⚙️ Ejemplo visual
