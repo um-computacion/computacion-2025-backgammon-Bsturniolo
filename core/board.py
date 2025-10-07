@@ -70,10 +70,7 @@ class Board:
             raise ValueError(f"Movimiento inválido de {from_point + 1} a {to_point + 1}")
         
     def can_move(self, from_point: int, to_point: int) -> bool:
-        """
-        Verifica si un movimiento es legal sin ejecutarlo.
-        Devuelve True si el movimiento es válido, False en caso contrario.
-        """
+        """Verifica si un movimiento es legal sin ejecutarlo."""
         if from_point < 0 or from_point > 23 or to_point < 0 or to_point > 23:
             return False
 
@@ -92,3 +89,31 @@ class Board:
 
         # Caso: destino bloqueado (2 o más fichas enemigas)
         return False
+
+    def reenter_from_bar(self, owner: int, entry_point: int):
+        """
+        Reintroduce una ficha desde la barra al tablero.
+        owner: 1 para Jugador 1, -1 para Jugador 2.
+        entry_point: índice donde intenta entrar (0-5 para J1, 18-23 para J2).
+        """
+        if self.__bar__[owner] == 0:
+            raise ValueError("No hay fichas en la barra para este jugador.")
+
+        if entry_point < 0 or entry_point > 23:
+            raise ValueError("El punto de entrada debe estar entre 0 y 23.")
+
+        # Verificar si el punto de entrada está bloqueado
+        if self.__points__[entry_point] * owner < -1:
+            raise ValueError("Punto de entrada bloqueado.")
+
+        # Caso: golpea una ficha enemiga
+        if self.__points__[entry_point] * owner == -1:
+            hit_owner = 1 if self.__points__[entry_point] > 0 else -1
+            self.__bar__[hit_owner] += 1
+            self.__points__[entry_point] = owner
+        else:
+            # Entra normalmente
+            self.__points__[entry_point] += owner
+
+        # Restar de la barra
+        self.__bar__[owner] -= 1
