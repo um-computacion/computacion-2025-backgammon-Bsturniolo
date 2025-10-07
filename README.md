@@ -58,4 +58,18 @@ En su lugar, se **envía a la barra**, una zona temporal donde espera hasta pode
   - El punto se reemplaza por la ficha del jugador que golpeó.
 - Mientras un jugador tenga fichas en su barra, **debe reingresarlas** antes de realizar otros movimientos (esta mecánica se implementará más adelante).
 
-### ⚙️ Ejemplo visual
+## ♻️ Reentrada desde la barra
+
+Cuando una ficha ha sido **golpeada**, se almacena en la barra del jugador.  
+Para volver al juego, el jugador debe **reingresar** esa ficha al tablero en su zona de entrada.
+
+### 🧩 Reglas básicas
+- Cada jugador tiene una zona de entrada:
+  - **Jugador 1 (O)** entra entre los puntos **1 a 6** (índices 0–5).
+  - **Jugador 2 (X)** entra entre los puntos **19 a 24** (índices 18–23).
+- Si el punto de entrada está:
+  - **Vacío o con fichas propias**, la ficha entra normalmente.
+  - **Con una sola ficha enemiga**, la golpea (y esa ficha va a la barra).
+  - **Con dos o más fichas enemigas**, el punto está **bloqueado** y no se puede reingresar ahí.
+- Si un jugador tiene fichas en la barra, **debe reingresarlas antes de hacer cualquier otro movimiento**.
+
