@@ -59,21 +59,21 @@ class BackgammonGame:
 
         board = self.__board__
         player = self.current_player()
-        owner = player.id_
+        owner = player._id  # usa el id interno del jugador
 
-        # Validar movimiento
+        # Validar movimiento en el tablero
         if not board.can_move(from_point, to_point):
             raise ValueError("Movimiento no permitido por el tablero.")
 
-        # Ejecutar movimiento
+        # Ejecutar el movimiento
         board.move_checker(from_point, to_point)
 
         # Remover el valor usado del dado
         self.__available_moves__.remove(distance)
 
-        print(f"{player.name} movió una ficha de {from_point + 1} a {to_point + 1} usando el dado {distance}.")
+        print(f"{player._name} movió una ficha de {from_point + 1} a {to_point + 1} usando el dado {distance}.")
 
-        # Si no quedan movimientos → cambiar turno
+        # Si no quedan movimientos → cambiar turno automáticamente
         if not self.__available_moves__:
             print("Turno completado. Cambiando jugador...")
             self.change_turn()
