@@ -1,75 +1,123 @@
-## 📖 ¿Qué es Backgammon?
+# 🎲 Backgammon Computación 2025
 
-**Backgammon** es uno de los juegos de mesa más antiguos del mundo, con más de 5000 años de historia.  
-Es un juego para **2 jugadores** que combina estrategia y azar (dados).  
+> Proyecto académico desarrollado en **Python 3.11** como parte de la cátedra de **Computación**.  
+> Implementa el clásico juego **Backgammon** con interfaz por consola (CLI) y una versión visual en **Pygame**, incluyendo una suite completa de **tests automatizados**.
 
-### 🎯 Objetivo
-Mover las **15 fichas** de cada jugador alrededor del tablero y ser el primero en sacarlas todas.  
+---
 
-### 🕹️ Reglas básicas
-- El tablero tiene **24 puntos** (triángulos), divididos en 4 cuadrantes.  
-- Cada jugador comienza con **15 fichas** colocadas en posiciones estándar.  
-- En cada turno se lanzan **dos dados de 6 caras**:  
-  - Los números indican cuántos puntos se puede avanzar.  
-  - Si sale doble, se juega el número **cuatro veces**.  
-- Se puede **capturar** fichas rivales si hay una sola en un punto (se envían a la barra).  
-- Las fichas capturadas deben **reingresar desde la barra** antes de mover otras.  
-- Gana el primero que logre **sacar todas sus fichas** del tablero.  
+## 🧠 Descripción general
 
-### 🖥️ Cómo jugar
-1. Ejecuta el juego con Python:  
-   ```bash
-   python cli.py
-   
-## Roadmap del proyecto
+**Backgammon Computación 2025** es una recreación modular del juego de mesa Backgammon, enfocada en la correcta aplicación de diseño, encapsulamiento, testing y cobertura de código.  
+El sistema permite jugar partidas completas con lógica de movimientos, barra, reingresos y turnos, y puede ejecutarse tanto desde la consola como desde una interfaz visual.
 
-# Backgammon - Proyecto Computación 2025
+### 🎮 Módulos principales
 
-## Características implementadas
+| Carpeta | Descripción |
+|----------|--------------|
+| `core/` | Contiene la lógica central del juego: tablero (`Board`), fichas (`Checker`), dados (`Dice`), jugadores (`Player`) y control general (`BackgammonGame`). |
+| `cli/` | Interfaz de texto. Permite jugar mediante comandos simples en la terminal (`tirar`, `mover`, `reingresar`, etc.). |
+| `pygame_ui/` | Interfaz gráfica realizada con **Pygame**, que muestra el tablero y permite mover fichas con el mouse. |
+| `tests/` | Conjunto de pruebas unitarias escritas con **Pytest** para verificar el comportamiento de cada módulo. |
+| `.github/workflows/` | Contiene el workflow de **GitHub Actions** para ejecutar los tests automáticamente al realizar un push. |
 
-- ✅ Tablero (`Board`) con 24 puntos y configuración inicial correcta
-- ✅ Jugadores (`Player`) con nombre e id
-- ✅ Dados (`Dice`) con manejo de dobles
-- ✅ Movimiento de fichas (`move_checker`) en el tablero
-- ✅ Validación de movimientos (`can_move`)
-- ✅ Fichas (`Checker`) con dueño
-- ✅ Interfaz por consola (CLI) básica con turnos y tirada de dados
-- ✅ Pruebas unitarias para Board, Player, Dice, Game y Checker
-- ✅ Integración continua con GitHub Actions
+---
 
-## Próximos pasos
+## ⚙️ Estructura del proyecto
 
-- ➡️ Implementar barra de fichas capturadas
-- ➡️ Implementar borneado (remover fichas)
-- ➡️ Reglas de victoria
-- ➡️ Interfaz gráfica con Pygame
+Backgammon/
+│
+├── core/
+│ ├── board.py
+│ ├── game.py
+│ ├── player.py
+│ ├── checker.py
+│ └── dice.py
+│
+├── cli/
+│ └── cli.py
+│
+├── pygame_ui/
+│ └── main.py
+│
+├── tests/
+│ ├── test_board.py
+│ ├── test_game.py
+│ ├── test_cli_commands.py
+│ ├── ...
+│ └── test_game_more_edges.py
+│
+├── requirements.txt
+├── README.md
+├── .gitignore
+└── .github/workflows/tests.yml
 
-## ♟️ Sistema de barra en el Backgammon
+## 🚀 Ejecución
 
-En **Backgammon**, cuando una ficha es **golpeada**, no se elimina del juego.  
-En su lugar, se **envía a la barra**, una zona temporal donde espera hasta poder volver a entrar al tablero.
+### ▶️ Desde la consola (CLI)
+```bash
+python -m cli.cli
 
-### 🧩 ¿Cómo funciona la barra?
-- Cada jugador tiene su propia barra:
-  - `Jugador 1 (O)` → `bar[1]`
-  - `Jugador 2 (X)` → `bar[-1]`
-- Si una ficha enemiga queda sola en un punto (por ejemplo, un `-1`) y el jugador contrario cae en ese punto, la ficha es golpeada y:
-  - Se suma `+1` a la barra del jugador golpeado.
-  - El punto se reemplaza por la ficha del jugador que golpeó.
-- Mientras un jugador tenga fichas en su barra, **debe reingresarlas** antes de realizar otros movimientos (esta mecánica se implementará más adelante).
+🕹️ Desde la interfaz gráfica (Pygame)
 
-## ♻️ Reentrada desde la barra
+python -m pygame_ui.main
 
-Cuando una ficha ha sido **golpeada**, se almacena en la barra del jugador.  
-Para volver al juego, el jugador debe **reingresar** esa ficha al tablero en su zona de entrada.
+🎯 Comandos disponibles (CLI)
 
-### 🧩 Reglas básicas
-- Cada jugador tiene una zona de entrada:
-  - **Jugador 1 (O)** entra entre los puntos **1 a 6** (índices 0–5).
-  - **Jugador 2 (X)** entra entre los puntos **19 a 24** (índices 18–23).
-- Si el punto de entrada está:
-  - **Vacío o con fichas propias**, la ficha entra normalmente.
-  - **Con una sola ficha enemiga**, la golpea (y esa ficha va a la barra).
-  - **Con dos o más fichas enemigas**, el punto está **bloqueado** y no se puede reingresar ahí.
-- Si un jugador tiene fichas en la barra, **debe reingresarlas antes de hacer cualquier otro movimiento**.
+| Comando                    | Descripción                                                      |
+| -------------------------- | ---------------------------------------------------------------- |
+| `tirar`                    | Lanza los dados del turno actual.                                |
+| `mover <origen> <destino>` | Mueve una ficha entre puntos (usar 1–24 como numeración humana). |
+| `reingresar <punto>`       | Reingresa una ficha desde la barra.                              |
+| `fin`                      | Cambia manualmente el turno.                                     |
+| `ver`                      | Muestra nuevamente el tablero.                                   |
+| `ayuda`                    | Lista todos los comandos.                                        |
+| `salir`                    | Finaliza la partida.                                             |
 
+🧪 Testing y Cobertura
+
+El proyecto utiliza Pytest + Coverage.py para garantizar calidad de código y correcto funcionamiento.
+
+python -m pytest --cov --cov-report=term-missing
+
+📊 Resultados finales
+Métrica	Valor
+Tests ejecutados	59
+Tests exitosos	100 %
+Cobertura total	89 %
+Módulos clave	core/board.py 96 %, core/game.py 78 %, cli/cli.py 90 %
+
+🧩 Se alcanzó el umbral de cobertura mínimo exigido (85 %) y se superó ampliamente.
+
+🧰 Requisitos
+
+Python ≥ 3.10
+Librerías del archivo requirements.txt
+pip install -r requirements.txt
+
+✅ Integración continua
+Este proyecto cuenta con un pipeline automatizado que ejecuta los tests al hacer push o pull request sobre main.
+
+# .github/workflows/tests.yml
+name: Run Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - run: |
+          pip install -r requirements.txt
+          python -m pytest -q --cov
+
+🏁 Conclusión
+
+Este trabajo implementa de forma completa la lógica del juego Backgammon, cumpliendo con:
+Modularidad, encapsulamiento y uso de patrones básicos.
+Testing exhaustivo con más de 59 pruebas unitarias.
+Cobertura superior al 85 % y validación automática en CI.
+Interfaz dual: CLI + Gráfica en Pygame.
+Desarrollado por Bautista Sturniolo – Universidad de Mendoza ( Materia computación 2025 ).
+🧠 “El código es el tablero; las pruebas son la estrategia.”

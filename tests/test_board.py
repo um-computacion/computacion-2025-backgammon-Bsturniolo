@@ -23,7 +23,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board.get_points()[7], -3)   # 3 fichas en punto 8
         self.assertEqual(board.get_points()[5], -5)   # 5 fichas en punto 6
 
-    # 🚀 Nuevos tests para can_move
+    # Nuevos tests para can_move
     def test_can_move_valid(self):
         board = Board()
         self.assertTrue(board.can_move(0, 1))  # Jugador 1 del punto 1 al 2

@@ -27,3 +27,6 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest discover -s tests -p "test_*.py"
+      - name: Run tests with coverage
+        run: |
+          python -m pytest -q --cov=core --cov-report=term-missing
