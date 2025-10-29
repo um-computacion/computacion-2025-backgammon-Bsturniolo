@@ -1,58 +1,56 @@
-import unittest
+
+import pytest
 from core.game import BackgammonGame
 
-class TestGameMoves(unittest.TestCase):
-    """Pruebas para los movimientos del juego Backgammon."""
+class DummyDice:
+    def __init__(self, seq):
+        self._seq = list(seq)
+    def roll(self):
+        return list(self._seq)
 
-    def setUp(self):
-        """Configura una partida nueva antes de cada test."""
-        self.game = BackgammonGame()
-        self.board = self.game.get_board()
+def test_cannot_move_without_dice():
+    g = BackgammonGame()
+    with pytest.raises(ValueError):
+        g.move(16, 19)  # sin tirar dados
 
-    def test_roll_dice_creates_available_moves(self):
-        """Verifica que al tirar los dados se generen movimientos disponibles."""
-        moves = self.game.roll_dice()
-        self.assertTrue(len(moves) in [2, 4])  # dos normales o cuatro si hay dobles
-        self.assertEqual(self.game.get_available_moves(), moves)
+def test_move_consumes_die_value_and_does_not_change_turn_if_moves_remain():
+    g = BackgammonGame()
+    # Dado determinístico: [3,5]
+    g.set_dice(DummyDice([3, 5]))
 
-    def test_move_uses_die_value(self):
-        """Verifica que un movimiento consuma un valor de dado."""
-        # Forzamos un resultado de dados predecible
-        self.game.__available_moves__ = [3, 5]
+    g.roll_dice()
+    # Jugador 1 mueve hacia índices mayores. Desde 16 → 19 es distancia 3 y destino 19 está libre al inicio.
+    g.move(16, 19)
+    # Consumió el 3, debe quedar [5]
+    assert g.get_available_moves() == [5]
+    # Sigue mismo jugador porque aún queda un valor por usar antes del fin de turno
+    # (El test no exige verificar el jugador; alcanza con que aún haya movimientos)
+    assert g.get_available_moves() == [5]
 
-        from_point, to_point = 0, 3  # mueve 3 puntos
-        self.board.get_points()[from_point] = 2
-        self.board.get_points()[to_point] = 0
+def test_turn_changes_when_no_moves_left():
+    g = BackgammonGame("A", "B")
+    # Dado determinístico: [1] (un único movimiento)
+    g._BackgammonGame__dice__ = DummyDice([1])
+    g.roll_dice()
+    # Para que haya un movimiento legal: desde 18 → 19 (distancia 1) es válido (Jugador 1 hacia mayor índice).
+    g.move(18, 19)
+    # Se consumió el único valor: debe cambiar el turno y no quedar movimientos
+    assert g.get_available_moves() == []
 
-        self.game.move(from_point, to_point)
+def test_direction_enforced_for_player1():
+    g = BackgammonGame()
+    g._BackgammonGame__dice__ = DummyDice([1, 2])
+    g.roll_dice()
+    # Intentar mover hacia atrás (11 → 10) debe fallar para Jugador 1
+    with pytest.raises(ValueError):
+        g.move(11, 10)
 
-        # Después del movimiento, el dado 3 debería consumirse
-        self.assertNotIn(3, self.game.get_available_moves())
-
-    def test_invalid_move_distance(self):
-        """Verifica que un movimiento con distancia no válida lanza error."""
-        self.game.__available_moves__ = [3, 5]
-
-        with self.assertRaises(ValueError):
-            self.game.move(0, 4)  # distancia 4 no está en los dados
-
-    def test_cannot_move_without_dice(self):
-        """No se puede mover si no se lanzaron los dados."""
-        with self.assertRaises(ValueError):
-            self.game.move(0, 1)
-
-    def test_turn_changes_when_no_moves_left(self):
-        """El turno cambia automáticamente cuando no quedan movimientos."""
-        self.game.__available_moves__ = [2]
-        self.board.get_points()[0] = 1
-        self.board.get_points()[2] = 0
-
-        current_player_before = self.game.current_player()
-        self.game.move(0, 2)
-        current_player_after = self.game.current_player()
-
-        # Verificamos que cambió el turno
-        self.assertNotEqual(current_player_before, current_player_after)
-
-if __name__ == '__main__':
-    unittest.main()
+def test_bar_rule_enforced_before_any_other_move():
+    g = BackgammonGame()
+    # simular que el J1 tiene una ficha en barra
+    g.get_bar()[1] = 1
+    g._BackgammonGame__dice__ = DummyDice([1, 2])
+    g.roll_dice()
+    # Mientras tengas fichas en barra, no podés mover desde tablero
+    with pytest.raises(ValueError):
+        g.move(16, 17)

@@ -1,0 +1,11 @@
+
+
+[run]
+branch = True
+source =
+    core
+    cli
+omit =
+    */venv/*
+    tests/*
+    pygame_ui/*
